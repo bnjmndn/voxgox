@@ -1,0 +1,55 @@
+import json
+from pprint import pprint
+
+filename = open('/Users/benjamindean/Desktop/Data viz/Final/Congress Gov_2012/vox_Congress Gov_20121011.json','r')
+
+with open('/Users/benjamindean/Desktop/Data viz/Final/Congress Gov_2012/vox_Congress Gov_20121011.json') as data_file:
+    json_data = open('/Users/benjamindean/Desktop/Data viz/Final/Congress Gov_2012/vox_Congress Gov_20121011.json')
+
+data = json.load(json_data)
+pprint(data)
+#use to close file json_data.close()
+
+#The json.dumps function takes a Python data structure and returns it as a JSON string.
+json_encoded = json.dumps(data)
+
+# print to screen=
+print json_encoded
+
+#The json.loads() function takes a JSON string and returns it as a Python data structure.
+decoded_data = json.loads(json_encoded)
+
+# print to screen
+print decoded_data
+
+# pretty printing of json-formatted string
+print json.dumps(decoded_data, sort_keys=True, indent=4)
+
+#PARSING OF INFO
+
+ids = data[0]["id"]
+descriptions = data[0]["description"]
+
+sourceID = data[0][0]["secondarySource"]["sourceID"]
+
+#now to move it to CSV
+
+import csv
+
+x = decoded_data
+
+x = json.loads(x)
+
+f = csv.writer(open("/Users/benjamindean/Desktop/Data viz/Final/Congress Gov_2012/csv", "wb+"))
+
+# Write CSV Header, If you dont need that, remove this line
+f.writerow(["id", "description", "sourceID", "name", "party"])
+
+for x in x:
+    f.writerow([x[0], 
+                x["0"], 
+                x["secondarySource"]["sourceID"], 
+                x["secondarySource"]["name"],
+                x["secondarySource"]["party"]])
+
+
